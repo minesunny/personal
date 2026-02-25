@@ -1,0 +1,80 @@
+name: Docker Image Artifact
+
+on:
+  push:
+    branches: [main]
+    tags: ["*"]
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "package.json"
+      - "package-lock.json"
+      - "next.config.ts"
+      - "public/**"
+      - "src/**"
+      - ".github/workflows/docker-image.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-image-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-image-artifact:
+    name: Build Docker Image Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version from branch or tag
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            RAW_VERSION="${GITHUB_HEAD_REF}"
+          else
+            RAW_VERSION="${GITHUB_REF_NAME}"
+          fi
+
+          SAFE_VERSION="$(echo "${RAW_VERSION}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed 's#[^a-z0-9._-]#-#g' \
+            | sed 's#-\\{2,\\}#-#g' \
+            | sed 's#^-##; s#-$##')"
+
+          if [[ -z "${SAFE_VERSION}" ]]; then
+            SAFE_VERSION="snapshot"
+          fi
+
+          echo "version=${SAFE_VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "resolved version: ${SAFE_VERSION}"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image as tar artifact
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          tags: |
+            personal:${{ steps.version.outputs.version }}
+            personal:${{ github.sha }}
+          outputs: type=docker,dest=/tmp/personal-${{ steps.version.outputs.version }}.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image-${{ steps.version.outputs.version }}
+          path: /tmp/personal-${{ steps.version.outputs.version }}.tar
+          if-no-files-found: error
+          retention-days: 7
