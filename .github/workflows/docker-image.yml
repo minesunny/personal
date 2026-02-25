@@ -9,7 +9,7 @@ on:
       - "Dockerfile"
       - ".dockerignore"
       - "package.json"
-      - "package-lock.json"
+      - "pnpm-lock.yaml"
       - "next.config.ts"
       - "public/**"
       - "src/**"

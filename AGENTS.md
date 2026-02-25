@@ -11,16 +11,16 @@
 - `.github/workflows/ci.yml`: CI workflow for lint + build checks.
 
 ## Build, Test, and Development Commands
-- `npm ci`: install dependencies exactly from `package-lock.json` (recommended for clean setup and CI parity).
-- `npm run dev`: start local development server.
-- `npm run lint`: run ESLint checks.
-- `npm run build`: create production build and run type checks.
-- `npm run start`: run production server after build.
+- `pnpm install --frozen-lockfile`: install dependencies exactly from `pnpm-lock.yaml` (recommended for clean setup and CI parity).
+- `pnpm dev`: start local development server.
+- `pnpm lint`: run ESLint checks.
+- `pnpm build`: create production build and run type checks.
+- `pnpm start`: run production server after build.
 
 Use this pre-PR sanity command:
 
 ```bash
-npm run lint && npm run build
+pnpm lint && pnpm build
 ```
 
 ## Coding Style & Naming Conventions
@@ -34,7 +34,7 @@ npm run lint && npm run build
 ## Testing Guidelines
 - No dedicated test framework is configured yet.
 - The current required quality gate is lint + build (same checks run in CI).
-- For every change, run `npm run lint && npm run build`.
+- For every change, run `pnpm lint && pnpm build`.
 - If you add tests, place them near source files and use `*.test.ts` or `*.test.tsx`.
 
 ## Commit & Pull Request Guidelines
