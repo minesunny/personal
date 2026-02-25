@@ -5,8 +5,20 @@ import yaml from "js-yaml";
 import { defaultLocale, type Locale } from "@/i18n/config";
 import type { ResumeData } from "@/types/resume";
 
+const DEFAULT_DATA_DIR = path.join(process.cwd(), "src/data");
+
+function getResumeDataDir(): string {
+  const rawDir = process.env.RESUME_DATA_DIR?.trim();
+
+  if (!rawDir) {
+    return DEFAULT_DATA_DIR;
+  }
+
+  return path.isAbsolute(rawDir) ? rawDir : path.join(process.cwd(), rawDir);
+}
+
 function getResumeFilePath(locale: Locale): string {
-  return path.join(process.cwd(), `src/data/resume.${locale}.yaml`);
+  return path.join(getResumeDataDir(), `resume.${locale}.yaml`);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

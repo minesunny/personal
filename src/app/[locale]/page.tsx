@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ResumeHome } from "@/components/resume-home";
-import { isLocale, locales, type Locale } from "@/i18n/config";
+import { isLocale, type Locale } from "@/i18n/config";
 import { getResumeData } from "@/lib/resume";
 
 interface LocalePageProps {
@@ -11,16 +11,15 @@ interface LocalePageProps {
   }>;
 }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function parseLocale(rawLocale: string): Locale {
   if (!isLocale(rawLocale)) {
     notFound();
   }
 
   return rawLocale;
-}
-
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({

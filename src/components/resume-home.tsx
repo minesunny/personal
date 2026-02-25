@@ -274,11 +274,12 @@ export function ResumeHome({ data, locale }: ResumeHomeProps) {
       <PersonalWebsitesPanel
         key="website"
         data={data}
+        locale={locale}
         title={sectionLabels[2]}
         description={data.ui.websitesPanelDescription}
       />,
     ],
-    [data, sectionLabels]
+    [data, locale, sectionLabels]
   );
 
   const onTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -796,12 +797,87 @@ function SocialLinksPanel({
   );
 }
 
+function getHostFromUrl(url: string): string {
+  try {
+    return new URL(url).host.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function WebsitePreview({
+  url,
+  name,
+  locale,
+}: {
+  url: string;
+  name: string;
+  locale: Locale;
+}) {
+  const [loaded, setLoaded] = React.useState(false);
+  const [failed, setFailed] = React.useState(false);
+  const host = React.useMemo(() => getHostFromUrl(url), [url]);
+
+  const openLabel = locale === "zh" ? "打开网站" : "Open Website";
+  const unsupportedLabel =
+    locale === "zh"
+      ? "该网站不支持嵌入预览，请点击打开。"
+      : "Embedded preview is not supported. Click to open.";
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="group relative block overflow-hidden rounded-xl border border-slate-200/90 bg-slate-50 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.9)]"
+      aria-label={`${openLabel}: ${name}`}
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-[radial-gradient(circle_at_18%_14%,rgba(59,130,246,0.14)_0%,rgba(59,130,246,0)_44%),linear-gradient(145deg,#f8fafc_0%,#eef2ff_100%)]">
+        {!failed && (
+          <iframe
+            src={url}
+            title={`${name} preview`}
+            loading="lazy"
+            tabIndex={-1}
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            referrerPolicy="no-referrer"
+            onLoad={() => setLoaded(true)}
+            onError={() => setFailed(true)}
+            className={`pointer-events-none absolute left-0 top-0 h-[200%] w-[200%] origin-top-left scale-50 border-0 transition-opacity duration-300 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        )}
+
+        <div
+          className={`pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity ${
+            loaded ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <div className="h-8 w-24 rounded-full border border-white/80 bg-white/70 backdrop-blur" />
+        </div>
+
+        {failed && (
+          <p className="pointer-events-none absolute inset-x-4 bottom-4 rounded-lg bg-white/85 px-3 py-2 text-xs text-slate-600 backdrop-blur">
+            {unsupportedLabel}
+          </p>
+        )}
+        <div className="pointer-events-none absolute bottom-3 left-3 rounded-full border border-white/70 bg-white/82 px-2.5 py-1 text-[11px] font-medium text-slate-700 backdrop-blur">
+          {host}
+        </div>
+      </div>
+    </a>
+  );
+}
+
 function PersonalWebsitesPanel({
   data,
+  locale,
   title,
   description,
 }: {
   data: ResumeData;
+  locale: Locale;
   title: string;
   description: string;
 }) {
@@ -821,11 +897,16 @@ function PersonalWebsitesPanel({
             transition={{ duration: 0.22 }}
             className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_18px_34px_-26px_rgba(15,23,42,0.85)]"
           >
+            <WebsitePreview
+              url={website.url}
+              name={website.name}
+              locale={locale}
+            />
             <a
               href={website.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="text-lg font-semibold text-slate-900 underline-offset-4 hover:underline"
+              className="mt-3 block text-lg font-semibold text-slate-900 underline-offset-4 hover:underline"
             >
               {website.name}
             </a>

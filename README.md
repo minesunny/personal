@@ -49,3 +49,26 @@ To block PR merges when CI fails, enable branch protection in GitHub:
 3. Enable `Require status checks to pass before merging`.
 4. Select required check: `CI / Code Check & Build`.
 5. Save the rule.
+
+## Docker Data Mapping (Editable in Production)
+
+The app reads resume YAML files from `RESUME_DATA_DIR`:
+
+- Default in local dev: `src/data`
+- Default in Docker runtime: `/app/data`
+
+Expected file names:
+
+- `resume.en.yaml`
+- `resume.zh.yaml`
+
+Run with host-mounted data (so production data can be edited without rebuilding image):
+
+```bash
+docker run --rm -p 3000:3000 \
+  -v /opt/personal-data:/app/data \
+  -e RESUME_DATA_DIR=/app/data \
+  personal-app:latest
+```
+
+After editing files in `/opt/personal-data`, refresh the page to see updated content.

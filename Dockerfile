@@ -17,6 +17,7 @@ RUN npm run build
 FROM base AS runner
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV RESUME_DATA_DIR=/app/data
 
 RUN apk add --no-cache libc6-compat \
   && addgroup -S nodejs -g 1001 \
@@ -28,6 +29,9 @@ RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/src/data ./data
+
+RUN chown -R nextjs:nodejs /app/data
 
 USER nextjs
 EXPOSE 3000
