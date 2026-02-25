@@ -1,0 +1,74 @@
+site:
+  title: "Maien | Personal Home"
+  description: "A YAML-driven personal resume home page built with Next.js."
+  subtitle: "PERSONAL HOME"
+  filing:
+    text: "ICP Filing: Hu ICP No. 2026000001-1"
+    url: "https://beian.miit.gov.cn/"
+
+ui:
+  sectionLabels:
+    - "Personal HOME"
+    - "Social Links"
+    - "Personal Websites"
+  socialPanelDescription: "Find me on these platforms"
+  websitesPanelDescription: "Projects and sites I maintain"
+  scrollHint: "Scroll to switch"
+
+profile:
+  name: "Maien"
+  role: "Full-Stack Engineer"
+  location: "Shanghai, China"
+  email: "hello@maien.dev"
+  summary: "I focus on building practical web products, from interface design to backend delivery."
+  highlights:
+    - "Build maintainable products with clear architecture."
+    - "Balance product goals, engineering quality, and delivery speed."
+    - "Enjoy open source and writing technical notes."
+  stats:
+    - label: "Years of Experience"
+      value: 6
+      suffix: "+"
+    - label: "Projects Delivered"
+      value: 24
+      suffix: "+"
+    - label: "Open Source Repos"
+      value: 18
+      suffix: ""
+
+socials:
+  - name: "GitHub"
+    handle: "@maien"
+    url: "https://github.com/maien"
+    description: "Code, experiments, and open source work."
+  - name: "Twitter"
+    handle: "@maien_dev"
+    url: "https://twitter.com/maien_dev"
+    description: "Thoughts about engineering and product building."
+  - name: "LinkedIn"
+    handle: "maien"
+    url: "https://www.linkedin.com/in/maien/"
+    description: "Professional profile and work history."
+
+websites:
+  - name: "Engineering Blog"
+    url: "https://blog.maien.dev"
+    description: "Technical write-ups about architecture, DX, and frontend systems."
+    tags:
+      - "Next.js"
+      - "TypeScript"
+      - "TailwindCSS"
+  - name: "UI Playground"
+    url: "https://ui.maien.dev"
+    description: "A showcase of reusable components and interaction experiments."
+    tags:
+      - "Animate UI"
+      - "Motion"
+      - "Design System"
+  - name: "Product Studio"
+    url: "https://studio.maien.dev"
+    description: "A small collection of side projects and product prototypes."
+    tags:
+      - "SaaS"
+      - "Automation"
+      - "Open Source"

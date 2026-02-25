@@ -1,0 +1,74 @@
+site:
+  title: "Maien | 个人主页"
+  description: "一个基于 Next.js 的 YAML 配置化个人简历主页。"
+  subtitle: "个人主页"
+  filing:
+    text: "沪ICP备2026000001号-1"
+    url: "https://beian.miit.gov.cn/"
+
+ui:
+  sectionLabels:
+    - "个人主页"
+    - "社交链接"
+    - "个人网站"
+  socialPanelDescription: "你可以在这些平台找到我"
+  websitesPanelDescription: "我维护的一些项目与网站"
+  scrollHint: "滚动切换"
+
+profile:
+  name: "Maien"
+  role: "全栈工程师"
+  location: "中国上海"
+  email: "hello@maien.dev"
+  summary: "我专注于构建务实、可交付的 Web 产品，覆盖界面体验、工程架构与后端实现。"
+  highlights:
+    - "用清晰的架构构建可维护的产品。"
+    - "在产品目标、工程质量与交付速度之间取得平衡。"
+    - "热爱开源并持续输出技术内容。"
+  stats:
+    - label: "从业年限"
+      value: 6
+      suffix: "+"
+    - label: "交付项目"
+      value: 24
+      suffix: "+"
+    - label: "开源仓库"
+      value: 18
+      suffix: ""
+
+socials:
+  - name: "GitHub"
+    handle: "@maien"
+    url: "https://github.com/maien"
+    description: "代码、实验项目与开源实践。"
+  - name: "Twitter"
+    handle: "@maien_dev"
+    url: "https://twitter.com/maien_dev"
+    description: "分享关于工程与产品构建的想法。"
+  - name: "LinkedIn"
+    handle: "maien"
+    url: "https://www.linkedin.com/in/maien/"
+    description: "职业经历与专业信息。"
+
+websites:
+  - name: "技术博客"
+    url: "https://blog.maien.dev"
+    description: "关于架构设计、开发体验和前端系统化建设的技术文章。"
+    tags:
+      - "Next.js"
+      - "TypeScript"
+      - "TailwindCSS"
+  - name: "UI 实验室"
+    url: "https://ui.maien.dev"
+    description: "可复用组件与交互动效实验展示。"
+    tags:
+      - "Animate UI"
+      - "Motion"
+      - "Design System"
+  - name: "产品工作室"
+    url: "https://studio.maien.dev"
+    description: "一些副项目和产品原型合集。"
+    tags:
+      - "SaaS"
+      - "Automation"
+      - "Open Source"

@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## CI and Merge Protection
+
+This repository includes GitHub Actions workflow at `.github/workflows/ci.yml`.
+
+- Trigger: `push` and `pull_request`
+- Checks: `npm run lint` and `npm run build`
+
+To block PR merges when CI fails, enable branch protection in GitHub:
+
+1. Go to `Settings` -> `Branches` -> `Add branch protection rule`.
+2. Select your target branch (for example `main`).
+3. Enable `Require status checks to pass before merging`.
+4. Select required check: `CI / Code Check & Build`.
+5. Save the rule.
